@@ -1,0 +1,29 @@
+---
+version: "3.9"
+services:
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - ./dev/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - pg-data:/var/lib/postgresql/data
+      - ./dev/db/script:/script:ro
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+  backend:
+    image: python:3.8.5
+    working_dir: /app/dev/backend
+    command: ["./test.sh"]
+    volumes:
+      - ./:/app:delegated
+      - ./src/AkvoDataSeeder:/app/dev/backend/AkvoDataSeeder:delegated
+    environment:
+      - DATABASE_URL=postgresql://akvo:password@db:5432/demo
+      - COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN}
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+volumes:
+  pg-data:
