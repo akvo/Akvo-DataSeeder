@@ -1,11 +1,11 @@
 import unittest
 
-from AkvoDataSeeder.example import Example
+from AkvoDataSeeder import data_seeder
 
 
 class TestExample(unittest.TestCase):
     def test_add(self):
-        self.assertEqual((Example(5) + Example(6)).value, 11)
+        self.assertEqual((data_seeder(5) + data_seeder(6)).value, 11)
 
 
 if __name__ == '__main__':

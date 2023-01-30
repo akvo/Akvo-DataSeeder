@@ -1,4 +1,4 @@
-from .example import Example as Example
+from .data_seeder import data_seeder
 
 __version__ = "0.1.0"
-__all__ = ["Example"]
+__all__ = ["data_seeder"]
